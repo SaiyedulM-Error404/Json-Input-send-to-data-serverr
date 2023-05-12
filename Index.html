@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Input Json</title>
     <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
 </head>
 <body>
-<div class="container">
+<div id="container">
     <h1>Welcom to My Server.</h1>
     <h2>Please fill data field and send to data server. </h2>
     <div id="input">
@@ -18,14 +19,57 @@
         <input type="password" name="password" id="password" placeholder="Password">
         
     </div>
-    <div id="btn">
-        <button type="submit">Submit</button>
+    <div >
+        <button id="btn" type="submit">Submit</button>
     </div>
-    <div class="thanks">
-        <h1>Thank you!!</h1>
-    </div>
+    
+</div>
+<div id="thank">
+    <h1>Thank you!!</h1>
+    <h1>Successfully submit your data</h1>
 </div>
 
-    <script src="script.js"></script>
+
+    <script>
+        let submitBtn = document.getElementById("btn").addEventListener("click",function ()
+        {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            if(username == "" || password == ""){
+                alert("Please filup the data!!!!");    
+            }
+            else{
+                const container = document.getElementById("container");
+                container.style.display = "none"
+                const thankPage = document.getElementById("thank");
+                thankPage.style.display = "block";
+                const postObjet = {
+                name:username,
+                password:password
+                }
+                nowPostToServer(postObjet);
+            }
+       
+            function nowPostToServer(postInfo){
+                fetch('https://jsonplaceholder.typicode.com/posts/1', {
+                method: 'PUT',
+                body: JSON.stringify(postInfo),
+                headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+                },
+            })
+            .then((response) => response.json())
+            .then((json) => console.log(json));
+
+            }
+        })
+        
+
+        // fetch('https://jsonplaceholder.typicode.com/posts/1',)
+        // .then((response) => response.json())
+        // .then((json) => console.log(json));
+        // .then(response => response.json());
+        // .then(data => console.log(data));
+    </script>
 </body>
 </html>
